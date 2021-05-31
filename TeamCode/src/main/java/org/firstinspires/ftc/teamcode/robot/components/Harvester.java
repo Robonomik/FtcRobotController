@@ -10,6 +10,7 @@ public class Harvester {
     boolean isOn = false;
 
     public Harvester(DcMotor motor){
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.motor = motor;
     }
 
@@ -21,6 +22,10 @@ public class Harvester {
     public void off(){
         motor.setPower(0.0);
         isOn = false;
+    }
+
+    public void setPower(double v){
+        motor.setPower(v / 2.0);
     }
 
     public void toggle(){

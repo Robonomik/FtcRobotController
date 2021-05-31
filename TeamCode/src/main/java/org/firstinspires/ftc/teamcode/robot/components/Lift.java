@@ -10,8 +10,8 @@ public class Lift {
      * Lift motor positions
      */
     public enum Position {
-        Top(2500),
-        Middle(1250),
+        Top(-385),
+        Middle(1),
         Bottom(0);
 
         private int position;
@@ -54,7 +54,12 @@ public class Lift {
      * @param position Position of the lift
      */
     public void runToPosition(Position position) {
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(position.value());
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.5);
+    }
+
+    public int get(){
+        return motor.getCurrentPosition();
     }
 }

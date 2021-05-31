@@ -2,9 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.gamepad.Gamepad;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.components.Lift;
+import org.firstinspires.ftc.teamcode.robot.components.Sorter;
 
 @TeleOp(name = "Driver", group = "Main")
 public class Driver extends LinearOpMode {
@@ -25,10 +29,6 @@ public class Driver extends LinearOpMode {
 
         while (opModeIsActive()) {
             update();
-
-            // Let's sleep for a little bit
-            sleep(40);
-            idle();
         }
 
         // Stop all motors
@@ -55,12 +55,30 @@ public class Driver extends LinearOpMode {
 
 
         // Start/Stop ball harvester
-        if (gamepad.left_stick_button.wasClicked()) {
-            robot.harvester.toggle();
+        robot.harvester.setPower(gamepad.left_stick_y);
+
+        // Sorter Chamber
+        if(gamepad.dpad_left.wasClicked()) {
+            robot.sorter.setDestinationChamber(Sorter.Chamber.Left);
+        } else if(gamepad.dpad_right.wasClicked()) {
+            robot.sorter.setDestinationChamber(Sorter.Chamber.Right);
         }
 
+        if(gamepad.y.isPressed()) {
+            robot.hardware.servos.grip.setPosition(1.0);
+        }
+        else if(gamepad.a.isPressed()) {
+            robot.hardware.servos.grip.setPosition(0.0);
+        }
+
+
         // Update sorter state, using color sensor
-        robot.sorter.update();
+        ColorSensor cs = robot.sorter.update();
+
+        telemetry.addData("red:",cs.red());
+        telemetry.addData("green:",cs.green());
+        telemetry.addData("blue:",cs.blue());
+        telemetry.update();
     }
 
     void updateDriveTrain() {
@@ -77,13 +95,13 @@ public class Driver extends LinearOpMode {
 
     void updateLift() {
         // Move lift based on dpad input
-        if (gamepad.dpad_up.isPressed()) {
-            robot.lift.run(1.0);
-        } else if (gamepad.dpad_down.isPressed()) {
-            robot.lift.run(-1.0);
-        } else {
-            robot.lift.run(0.0);
+        if (gamepad.dpad_up.wasClicked()) {
+            robot.lift.runToPosition(Lift.Position.Top);
+        } else if (gamepad.dpad_down.wasClicked()) {
+            robot.lift.runToPosition(Lift.Position.Bottom);
         }
+
+        telemetry.addData("Pos:", robot.lift.get());
     }
 
     void updateHatches(){

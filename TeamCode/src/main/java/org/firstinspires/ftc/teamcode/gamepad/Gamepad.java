@@ -32,10 +32,11 @@ public class Gamepad {
     }
 
     public void update() {
-        left_stick_x = gamepad.left_stick_x;
-        left_stick_y = gamepad.left_stick_y;
-        right_stick_x = gamepad.right_stick_x;
-        right_stick_y = gamepad.right_stick_y;
+        left_stick_x = ((float) Math.round(gamepad.left_stick_x * 10.0)) / 10.0f;
+        left_stick_y = ((float) Math.round(gamepad.left_stick_y * 10.0)) / 10.0f;
+
+        right_stick_x = ((float) Math.round(gamepad.right_stick_x * 10.0)) / 10.0f;
+        right_stick_y = ((float) Math.round(gamepad.right_stick_y * 10.0)) / 10.0f;
 
         dpad_up.update(gamepad.dpad_up);
         dpad_down.update(gamepad.dpad_down);
@@ -53,7 +54,7 @@ public class Gamepad {
         left_stick_button.update(gamepad.left_stick_button);
         right_stick_button.update(gamepad.right_stick_button);
 
-        left_trigger = gamepad.left_trigger;
-        right_trigger = gamepad.right_trigger;
+        left_trigger = ((float) Math.round(gamepad.left_trigger * 10.0)) / 10.0f;
+        right_trigger = ((float) Math.round(gamepad.right_trigger * 10.0)) / 10.0f;
     }
 }

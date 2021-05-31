@@ -46,6 +46,7 @@ public class Hatch {
     public void open() {
         position = Position.Opened;
         servo.setPosition(position.value());
+
     }
 
     /**
@@ -65,5 +66,9 @@ public class Hatch {
         } else {
             open();
         }
+    }
+
+    public double getPosition(){
+        return servo.getPosition();
     }
 }

@@ -12,6 +12,9 @@ public class MainDrive {
     private DcMotor leftMotor, rightMotor;
 
     public MainDrive(DcMotor leftMotor, DcMotor rightMotor) {
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         this.leftMotor = leftMotor;
         this.rightMotor = rightMotor;
     }
@@ -40,6 +43,6 @@ public class MainDrive {
         // Calculate power of right motor
         double rPower = Range.clip(power - direction, -1.0, 1.0);
 
-        setPower(lPower, rPower);
+        setPower(lPower, -rPower);
     }
 }

@@ -15,17 +15,20 @@ public class Sorter {
     public Sorter(Servo servo, ColorSensor colorSensor) {
         this.servo = servo;
         this.colorSensor = colorSensor;
+
+        colorSensor.enableLed(false);
     }
 
     /**
      * Set destination chamber based on sampled color
      */
-    public void update() {
-        if (colorSensor.red() > colorSensor.blue()) {
-            setDestinationChamber(Chamber.Left);
-        } else if (colorSensor.blue() > colorSensor.red()) {
-            setDestinationChamber(Chamber.Right);
-        }
+    public ColorSensor update() {
+        return colorSensor;
+//        if (colorSensor.red() > colorSensor.blue()) {
+//            setDestinationChamber(Chamber.Left);
+//        } else if (colorSensor.blue() > colorSensor.red()) {
+//            setDestinationChamber(Chamber.Right);
+//        }
     }
 
     /**
@@ -38,7 +41,7 @@ public class Sorter {
                 break;
             }
             case Right: {
-                servo.setPosition(1.0);
+                servo.setPosition(0.3);
                 break;
             }
         }
